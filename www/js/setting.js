@@ -308,7 +308,7 @@ ang_app.controller("rgyanCotrl", function ($scope, $http) {
         $http.get("http://nexgen/rgyan_app/index.php/api/")
                 .then(function (response) {
                     $scope.response = response.data;
-            $scope.CreateDatabase();
+          //  $scope.CreateDatabase()
             
                     console.log($scope.response);
                     //     console.log(response.data);
@@ -690,6 +690,7 @@ ang_app.controller("rgyanCotrl", function ($scope, $http) {
     };
 
     $scope.DownloadDataBase();
+    $scope.CreateDatabase();
 });
 
 
