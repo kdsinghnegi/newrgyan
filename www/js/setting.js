@@ -86,6 +86,8 @@ ang_app.controller("rgyanCotrl", function ($scope, $http) {
 
     };
     $scope.CreateDatabase = function () {
+        
+//        $scope.DownloadDataBase();
         $scope.Synronize();
         //   angular.element(document).addEventListener("deviceready", function () {
         //    console.log("load 1");
@@ -301,10 +303,13 @@ ang_app.controller("rgyanCotrl", function ($scope, $http) {
     };
 
     $scope.DownloadDataBase = function () {
+        
         //Download database from server and store in $scope.response
         $http.get("http://nexgen/rgyan_app/index.php/api/")
                 .then(function (response) {
                     $scope.response = response.data;
+            $scope.CreateDatabase();
+            
                     console.log($scope.response);
                     //     console.log(response.data);
                 });
@@ -684,7 +689,7 @@ ang_app.controller("rgyanCotrl", function ($scope, $http) {
         console.log("success");
     };
 
-    $scope.CreateDatabase();
+    $scope.DownloadDataBase();
 });
 
 
