@@ -1,8 +1,8 @@
 var db;
-var shortName = "ariyn";
-var version = "1.4";
-var displayName = "ariyn";
-var maxSize = 6 * 1024;
+var shortName = "admindb";
+var version = "1.6";
+var displayName = "admindb";
+var maxSize = 10 * 1024;
 
 var Create_Tables_Query = new Array();
 Create_Tables_Query[0] = 'CREATE  TABLE  IF NOT EXISTS "nrgyn_basic_settings" ("id" INTEGER PRIMARY KEY  AUTOINCREMENT  NOT NULL , "app_title" TEXT, "status" BOOL, "Add_User" INTEGER, "Mode_User" INTEGER, "curr_lang_id" INTEGER, "Add_DateTime" DATETIME, "Mode_DateTime" DATETIME);';
@@ -107,7 +107,8 @@ ang_app.controller("rgyanCotrl", function ($scope, $http) {
         {
             console.log("Database open..");
             $scope.CreateTables(0);
-            $scope.appInit();
+            $scope.DownloadDataBase();
+//            $scope.appInit();
             //  console.log("created");
         } else
         {
@@ -295,6 +296,8 @@ ang_app.controller("rgyanCotrl", function ($scope, $http) {
 
             }
         }
+        
+          $scope.appInit();
 
 
 
@@ -308,8 +311,10 @@ ang_app.controller("rgyanCotrl", function ($scope, $http) {
         $http.get("http://nexgen/rgyan_app/index.php/api/")
                 .then(function (response) {
                     $scope.response = response.data;
+                        
+                        $scope.ImportDataInTables();
           //  $scope.CreateDatabase()
-            
+                   // $scope.CreateDatabase();
                     console.log($scope.response);
                     //     console.log(response.data);
                 });
@@ -689,8 +694,8 @@ ang_app.controller("rgyanCotrl", function ($scope, $http) {
         console.log("success");
     };
 
-    $scope.DownloadDataBase();
     $scope.CreateDatabase();
+    
 });
 
 
