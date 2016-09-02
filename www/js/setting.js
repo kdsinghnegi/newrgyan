@@ -1,13 +1,13 @@
 var db;
-var shortName = "admindb";
+var shortName = "admindblatest";
 var version = "1.6";
-var displayName = "admindb";
+var displayName = "admindblatest";
 var maxSize = 10 * 1024;
 
 var Create_Tables_Query = new Array();
 Create_Tables_Query[0] = 'CREATE  TABLE  IF NOT EXISTS "nrgyn_basic_settings" ("id" INTEGER PRIMARY KEY  AUTOINCREMENT  NOT NULL , "app_title" TEXT, "status" BOOL, "Add_User" INTEGER, "Mode_User" INTEGER, "curr_lang_id" INTEGER, "Add_DateTime" DATETIME, "Mode_DateTime" DATETIME);';
 Create_Tables_Query[1] = 'CREATE  TABLE  IF NOT EXISTS "nrgyn_app_langs" ("lang_id" INTEGER PRIMARY KEY  AUTOINCREMENT  NOT NULL , "lang_code" VARCHAR, "lang_title" VARCHAR, "status" INTEGER);';
-Create_Tables_Query[2] = 'CREATE  TABLE  IF NOT EXISTS "nrgyn_daily_songs" ("daily_song_id" INTEGER PRIMARY KEY  AUTOINCREMENT  NOT NULL , "offline_song" VARCHAR, "online_song" VARCHAR, "day" INTEGER, "status" INTEGER, "sort" INTEGER, "Add_User" INTEGER, "Mode_User" INTEGER, "Add_DateTime" DATETIME);';
+Create_Tables_Query[2] = 'CREATE  TABLE  IF NOT EXISTS "nrgyn_daily_songs" ("daily_song_id" INTEGER PRIMARY KEY  AUTOINCREMENT  NOT NULL , "offline_song" VARCHAR, "online_song" VARCHAR, "day" INTEGER, "status" INTEGER, "sort" INTEGER, "Add_User" INTEGER, "Mode_User" INTEGER, "Add_DateTime" DATETIME,"Mode_DateTime" DATETIME);';
 Create_Tables_Query[3] = 'CREATE  TABLE  IF NOT EXISTS "nrgyn_main_cat" ("cat_id" INTEGER PRIMARY KEY  AUTOINCREMENT  NOT NULL , "parent_cat_id" INTEGER DEFAULT 0, "sort" INTEGER DEFAULT 99, "status" INTEGER DEFAULT 1, "online_bg_img" TEXT, "offline_bg_img" TEXT, "Add_User" INTEGER, "Mode_User" INTEGER, "Add_DateTime" DATETIME, "Mode_DateTime" DATETIME);';
 Create_Tables_Query[4] = 'CREATE  TABLE  IF NOT EXISTS "nrgyn_main_cat_des" ("cat_des_id" INTEGER PRIMARY KEY  AUTOINCREMENT  NOT NULL , "cat_id" INTEGER, "lang_id" INTEGER, "name" VARCHAR, "status" INTEGER DEFAULT 1);';
 Create_Tables_Query[5] = 'CREATE  TABLE  IF NOT EXISTS "nrgyn_posts" ("post_id" INTEGER PRIMARY KEY  AUTOINCREMENT  NOT NULL , "cat_id" INTEGER, "offline_thumb_img" TEXT, "online_thumb_img" TEXT, "offline_song" TEXT, "online_song" TEXT, "status" INTEGER DEFAULT 1, "sort" INTEGER DEFAULT 99, "Add_User" INTEGER, "Mode_User" INTEGER, "Add_DateTime" DATETIME, "Mode_DateTime" DATETIME);';
@@ -26,8 +26,9 @@ ang_app.controller("rgyanCotrl", function ($scope, $http) {
     $scope.nrgyn_main_cat_des = '';
     $scope.nrgyn_posts = '';
     $scope.nrgyn_posts_des = '';
+    $scope.PlaySong = "";//songname;
 
-    $scope.app_title = "Shanti Sansar";
+    $scope.app_title = "RGYAN";
     $scope.MainCategory = {};
     $scope.MainCatStatus = ""; //intially show to user
 
@@ -54,40 +55,40 @@ ang_app.controller("rgyanCotrl", function ($scope, $http) {
         //next day syncronization ....
         // app.receivedEvent('deviceready');
 
-//        
-//        var sync = ContentSync.sync({
-//            src: 'https://nexgen/rgyan_app/assets/images',
-//            id: 'app-1',
-//            copyRootApp: true,
-//            manifest: 'manifest.json'
-//        });
-//
-//        sync.on('progress', function (data) {
-//
-//            console.log("progress");
-//            // data.progress
-//        });
-//
-//        sync.on('complete', function (data) {
-//            // data.localPath
-//            console.log("complete");
-//        });
-//
-//        sync.on('error', function (e) {
-//            console.log("error");
-//            // e
-//        });
-//
-//        sync.on('cancel', function () {
-//            // triggered if event is cancelled
-//            console.log("cancel");
-//        });
+        //        
+        //        var sync = ContentSync.sync({
+        //            src: 'https://nexgen/rgyan_app/assets/images',
+        //            id: 'app-1',
+        //            copyRootApp: true,
+        //            manifest: 'manifest.json'
+        //        });
+        //
+        //        sync.on('progress', function (data) {
+        //
+        //            console.log("progress");
+        //            // data.progress
+        //        });
+        //
+        //        sync.on('complete', function (data) {
+        //            // data.localPath
+        //            console.log("complete");
+        //        });
+        //
+        //        sync.on('error', function (e) {
+        //            console.log("error");
+        //            // e
+        //        });
+        //
+        //        sync.on('cancel', function () {
+        //            // triggered if event is cancelled
+        //            console.log("cancel");
+        //        });
 
 
     };
     $scope.CreateDatabase = function () {
-        
-//        $scope.DownloadDataBase();
+
+        //        $scope.DownloadDataBase();
         $scope.Synronize();
         //   angular.element(document).addEventListener("deviceready", function () {
         //    console.log("load 1");
@@ -108,13 +109,13 @@ ang_app.controller("rgyanCotrl", function ($scope, $http) {
             console.log("Database open..");
             $scope.CreateTables(0);
             $scope.DownloadDataBase();
-//            $scope.appInit();
+            //            $scope.appInit();
             //  console.log("created");
         } else
         {
             //  console.log("not created");
         }
-//            });
+        //            });
     };
 
     $scope.CreateTables = function (i) {
@@ -296,8 +297,8 @@ ang_app.controller("rgyanCotrl", function ($scope, $http) {
 
             }
         }
-        
-          $scope.appInit();
+
+        $scope.appInit();
 
 
 
@@ -306,15 +307,16 @@ ang_app.controller("rgyanCotrl", function ($scope, $http) {
     };
 
     $scope.DownloadDataBase = function () {
-        
+
         //Download database from server and store in $scope.response
-        $http.get("http://nexgen/rgyan_app/index.php/api/")
+        //.$http.get("http://nexgen/rgyan_app/index.php/api/")
+        $http.get("sql/data.json")
                 .then(function (response) {
                     $scope.response = response.data;
-                        
-                        $scope.ImportDataInTables();
-          //  $scope.CreateDatabase()
-                   // $scope.CreateDatabase();
+
+                    $scope.ImportDataInTables();
+                    //  $scope.CreateDatabase()
+                    // $scope.CreateDatabase();
                     console.log($scope.response);
                     //     console.log(response.data);
                 });
@@ -340,7 +342,7 @@ ang_app.controller("rgyanCotrl", function ($scope, $http) {
             var executeQuery = "INSERT OR REPLACE INTO " + table + " (" + coloumn + ") VALUES (" + preQues + ") ";
             transaction.executeSql(executeQuery, values
                     , function (tx, result) {
-                        console.log("Inserted");
+                        console.log("Inserted" + table);
                     },
                     function (transaction, error) {
                         console.log("Error: " + error.message + " code: " + error.code);
@@ -354,6 +356,7 @@ ang_app.controller("rgyanCotrl", function ($scope, $http) {
 
         $scope.getBasicSetting();
         $scope.getMainCategory();
+        $scope.DailySongs();
 
     };
 
@@ -393,7 +396,7 @@ ang_app.controller("rgyanCotrl", function ($scope, $http) {
 
 
                             var len = results.rows.length, i;
-//                        $("#rowCount").append(len);
+                            //                        $("#rowCount").append(len);
                             var MainCategory = new Array();
                             for (i = 0; i < len; i++) {
                                 console.log(results.rows.item(i).cat_id);
@@ -418,9 +421,9 @@ ang_app.controller("rgyanCotrl", function ($scope, $http) {
                             $scope.backScreenid = 0;
 
                             $scope.$apply();
-//                    
-//                    $scope.app_title = results.rows.item(0).app_title;
-//                    console.log($scope.app_title);
+                            //                    
+                            //                    $scope.app_title = results.rows.item(0).app_title;
+                            //                    console.log($scope.app_title);
                         }
                 , function (error) {
                     console.log(error);
@@ -447,7 +450,7 @@ ang_app.controller("rgyanCotrl", function ($scope, $http) {
 
 
                             var len = results.rows.length, i;
-//                        $("#rowCount").append(len);
+                            //                        $("#rowCount").append(len);
                             var MainSubCategory = new Array();
                             for (i = 0; i < len; i++) {
                                 console.log(results.rows.item(i).cat_id);
@@ -469,9 +472,9 @@ ang_app.controller("rgyanCotrl", function ($scope, $http) {
                             $scope.homeIcon = "fa-chevron-left";
                             $scope.backScreenid = 1;
                             $scope.$apply();
-//                    
-//                    $scope.app_title = results.rows.item(0).app_title;
-//                    console.log($scope.app_title);
+                            //                    
+                            //                    $scope.app_title = results.rows.item(0).app_title;
+                            //                    console.log($scope.app_title);
                         }
                 , function (error) {
                     console.log(error);
@@ -503,7 +506,7 @@ ang_app.controller("rgyanCotrl", function ($scope, $http) {
 
 
                             var len = results.rows.length, i;
-//                        $("#rowCount").append(len);
+                            //                        $("#rowCount").append(len);
                             var post = new Array();
                             for (i = 0; i < len; i++) {
                                 //  console.log(results.rows.item(i).cat_id);
@@ -530,9 +533,9 @@ ang_app.controller("rgyanCotrl", function ($scope, $http) {
 
 
                             $scope.$apply();
-//                    
-//                    $scope.app_title = results.rows.item(0).app_title;
-//                    console.log($scope.app_title);
+                            //                    
+                            //                    $scope.app_title = results.rows.item(0).app_title;
+                            //                    console.log($scope.app_title);
                         }
                 , function (error) {
                     console.log(error);
@@ -558,7 +561,7 @@ ang_app.controller("rgyanCotrl", function ($scope, $http) {
 
 
                             var len = results.rows.length, i;
-//                        $("#rowCount").append(len);
+                            //                        $("#rowCount").append(len);
                             var post = new Array();
                             for (i = 0; i < len; i++) {
                                 //  console.log(results.rows.item(i).cat_id);
@@ -585,9 +588,9 @@ ang_app.controller("rgyanCotrl", function ($scope, $http) {
 
 
                             $scope.$apply();
-//                    
-//                    $scope.app_title = results.rows.item(0).app_title;
-//                    console.log($scope.app_title);
+                            //                    
+                            //                    $scope.app_title = results.rows.item(0).app_title;
+                            //                    console.log($scope.app_title);
                         }
                 , function (error) {
                     console.log(error);
@@ -662,11 +665,11 @@ ang_app.controller("rgyanCotrl", function ($scope, $http) {
                 transaction.executeSql("SELECT * FROM phonegap_pro", [], function (tx, results) {
 
                     console.log(results.rows.item);
-//                        var len = results.rows.length, i;
-//                        $("#rowCount").append(len);
-//                        for (i = 0; i < len; i++) {
-//                            $("#TableData").append("<tr><td>" + results.rows.item(i).id + "</td><td>" + results.rows.item(i).title + "</td><td>" + results.rows.item(i).desc + "</td></tr>");
-//                        }
+                    //                        var len = results.rows.length, i;
+                    //                        $("#rowCount").append(len);
+                    //                        for (i = 0; i < len; i++) {
+                    //                            $("#TableData").append("<tr><td>" + results.rows.item(i).id + "</td><td>" + results.rows.item(i).title + "</td><td>" + results.rows.item(i).desc + "</td></tr>");
+                    //                        }
                 }, null);
             });
 
@@ -694,8 +697,41 @@ ang_app.controller("rgyanCotrl", function ($scope, $http) {
         console.log("success");
     };
 
+    $scope.DailySongs = function ()
+    {
+        var d = new Date();
+        var n = d.getDay();
+        // console.log("day"+n);
+
+        if (db)
+        {
+            db.transaction(function (transaction) {
+
+                var sql = "SELECT offline_song from nrgyn_daily_songs where day =" + n;
+                transaction.executeSql(sql, []
+                        , function (tx, results) {
+                            console.log("day row" + results.rows);
+                            console.log(results.rows);
+                            $scope.PlaySong = "mp3/" + results.rows.item(0).offline_song;
+                            $scope.$apply();
+                           // document.getElementById('player').src = $scope.PlaySong;
+                            //                    
+                            //                    $scope.app_title = results.rows.item(0).app_title;
+                            console.log(results.rows.item(0).offline_song);
+                        }
+                , function (error) {
+                    console.log(error);
+                });
+            });
+        }
+
+    };
+
     $scope.CreateDatabase();
-    
+
+
+
+
 });
 
 
@@ -708,8 +744,7 @@ Object.prototype.values = function (object) {
     return values;
 };
 
-var d = new Date();
-var n = d.getDay();
+
 app.initialize();
 //The result of n will be:
 //
@@ -742,7 +777,7 @@ app.initialize();
 //<div data-ng-controller="myCtrl" data-ng-init="init("%some_backend_value%")"></div>-->
 
 
-//    $scope.processQuerywew = function (db, i, queries, dbname) {
+//    $scope.processQuery = function (db, i, queries, dbname) {
 //
 //        if (i < queries.length - 1) {
 //

@@ -90,10 +90,7 @@
 
                 </div>
 
-                <audio  class="player" controls ="loop" >
-                    <source src="mp3/monjo.mp3" type="audio/mpeg" >
-                    Your browser does not support the <code>audio</code> tag.
-                </audio>
+
 
                 <div class="MantraContainer {{PostStatus}} ">
 
@@ -108,25 +105,25 @@
                             <p>
                                 {{posts.post_desc}}
 
-                                
+
                             </p>
-                            
+
                             <span class="readMore">Read More</span> <span class="fa fa-play-circle "></span>
                         </div>
                     </div>
 
 
                 </div>
-<!--                <button type="button" ng-click="DownloadDataBase()">Download Database</button>
-                <button type="button" ng-click="ImportDataInTables()">Import In tables</button>
-                <button type="button" ng-click="appInit()">App Init In tables</button>-->
+                <!--                <button type="button" ng-click="DownloadDataBase()">Download Database</button>
+                                <button type="button" ng-click="ImportDataInTables()">Import In tables</button>
+                                <button type="button" ng-click="appInit()">App Init In tables</button>-->
 
 
 
                 <div class="MantraDetailContainer  {{PostDescStatus}}">
-<!--                    {{PostDesc}}-->
+                    <!--                    {{PostDesc}}-->
                     <div class="mantra " ng-repeat="post in PostDesc">
-                        
+
                         <h1 class="MantraTitle">
                             {{post.post_title}}
                         </h1>
@@ -145,7 +142,10 @@
             </div>
 
 
-
+            <audio  class="player" ng-src="{{PlaySong}}" controls ="loop" autoplay="true" >
+                <source id="player"  type="audio/mpeg" >
+                Your browser does not support the <code>audio</code> tag.
+            </audio>
         </div>
 
 
