@@ -1,7 +1,7 @@
 var db;
-var shortName = "admindblatest";
+var shortName = "latestdb";
 var version = "1.6";
-var displayName = "admindblatest";
+var displayName = "latestdb";
 var maxSize = 10 * 1024;
 
 var Create_Tables_Query = new Array();
