@@ -742,7 +742,7 @@ app.initialize();
 //<div data-ng-controller="myCtrl" data-ng-init="init("%some_backend_value%")"></div>-->
 
 
-//    $scope.processQuery = function (db, i, queries, dbname) {
+//    $scope.processQuerywew = function (db, i, queries, dbname) {
 //
 //        if (i < queries.length - 1) {
 //
